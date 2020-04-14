@@ -23,7 +23,7 @@ RUN CGO_ENABLED=0 GOOS=linux go build -v -o server
 FROM alpine:3
 
 RUN apk add --update --no-cache \
-    ca-certificates \
+    ca-certificates
 
 # Copy the binary to the production image from the builder stage.
 COPY --from=builder /app/server /server
