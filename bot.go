@@ -18,9 +18,47 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 	}
 
 	if strings.HasPrefix(m.Content, "!ev") {
-		_, _ = s.ChannelMessageSend(m.ChannelID, "HELLO!")
+		args := m.Content.Split()
+		numArgs := len(args)
+		//Base command
+		if numArgs == 1 {
+			_, _ = s.ChannelMessageSend(m.ChannelID, "HELLO!")
+			return
+		}
+
+		subCmd := args[2]
+
+		if subCmd == "help" {
+			displayHelp(s, m)
+			return
+		}
+
+		if subCmd == "server" {
+			subArgs := args[2:]
+			if subArgs[1] == "on" {
+				powerOn(subArgs[2], s, m)
+			}
+			if subArgs[1] == "off" {
+				powerOff(subArgs[2], s, m)
+			}
+			return
+		}
+		displayHelp(s, m)
 		return
 	}
+}
+
+func powerOn(server string, s *discordgo.Session, m *discordgo.MessageCreate) {
+
+}
+
+func powerOff(server string, s *discordgo.Session, m *discordgo.MessageCreate) {
+
+}
+
+func displayHelp(s *discordgo.Session, m *discordgo.MessageCreate) {
+	_, _ = s.ChannelMessageSend(m.ChannelID, "Here is where I would display a help message IF I HAD ONE")
+	return
 }
 
 func main() {
